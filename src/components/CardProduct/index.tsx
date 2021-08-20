@@ -10,7 +10,7 @@ import {
 import { AddShoppingCart } from '@material-ui/icons';
 import Typography from '@material-ui/core/Typography';
 import { useDispatch } from "react-redux";
-import { addToCard } from '../../store/actions/cart';
+import { addToCart } from '../../store/actions/cart';
 
 interface Props {
   image?: string;
@@ -23,7 +23,7 @@ export default function CardProduct({image, name, price, id} : Props) {
   const dispatch = useDispatch();
 
   const addProductToCard = (product: any) => {
-    dispatch(addToCard(product));
+    dispatch(addToCart(product));
   }
 
   return (

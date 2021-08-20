@@ -19,7 +19,7 @@ const calculateCart = (state) => Object
   })
 
 
-const handleAddToCard = (state: any, product: any) => {
+const handleAddToCart = (state: any, product: any) => {
   const index = state.products[product.id];
   if (index) {
     index.amount +=1;
@@ -43,11 +43,21 @@ const handleAddToCard = (state: any, product: any) => {
 
 
 const handleRemoveToCart = (state: any, product: any) => {
-  delete state.products[product.id];
+
+  if (product.option === 'all') {
+    delete state.products[product.id];
+  } else {
+    const result = state.products[product.id];
+    if (result.amount !== 1) {
+      result.amount -= 1;
+    } 
+  }
+
   const {
     total, 
     amount
   } = calculateCart(state);
+
   return {
     ...state,
     total, 
@@ -61,7 +71,7 @@ export const Reducer = (state = initialState, action: any) => {
     case HYDRATE: 
       return {...state, ...action.payload};
     case ADD_TO_CART: 
-      return handleAddToCard(state, action.payload);
+      return handleAddToCart(state, action.payload);
     case REMOVE_TO_CART: 
       return handleRemoveToCart(state, action.payload);
     case CLEAN_CART: 

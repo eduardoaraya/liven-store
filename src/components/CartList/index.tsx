@@ -14,8 +14,10 @@ import {
   Box
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
 import { useDispatch, connect } from 'react-redux'
-import { cleanCart, removeToCard } from '../../store/actions/cart';
+import { addToCart, cleanCart, removeToCart } from '../../store/actions/cart';
 
 function CartList({ show, items }) {
   const dispatch = useDispatch();
@@ -25,8 +27,12 @@ function CartList({ show, items }) {
     dispatch(cleanCart());
   }
 
-  const removeItem = ({amout, id}) => {
-    dispatch(removeToCard({amout, id}));
+  const remove = ({id, option}) => {
+    dispatch(removeToCart({id, option}));
+  }
+
+  const add = ({ id }) => {
+    dispatch(addToCart({ id }))
   }
 
   return (
@@ -44,31 +50,42 @@ function CartList({ show, items }) {
         {
          items.length > 0 ? 
           items.map((item:any) => (
-            <>
-              <ListItem key={item.id} alignItems="flex-start">
+            <div key={item.id}>
+              <ListItem alignItems="flex-start">
                 <ListItemAvatar>
                   <Avatar alt="Remy Sharp" src={item.image} />
                 </ListItemAvatar>
                 <ListItemText
                   primary={item.name}
                   secondary={
-                    <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                    <span style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                       <Typography
                         sx={{ display: 'inline' }}
                         component="span"
                         variant="body2"
-                        color="text.primary">
+                        color="primary">
                         R$ {item.price.replace('.', ',')} x {item.amount} 
                       </Typography>
-                      <IconButton size="small" onClick={() => removeItem({amount: item.amount, id: item.id })}>
-                        <DeleteIcon></DeleteIcon>
-                      </IconButton>
-                    </div>
+                      <span>
+                        <IconButton size="small" onClick={() => remove({
+                          id: item.id,
+                          option: 'all'
+                         })}>
+                          <DeleteIcon />
+                        </IconButton>
+                        <IconButton size="small" onClick={() => remove({id: item.id, option: 'only'})}>
+                          <RemoveIcon />
+                        </IconButton>
+                        <IconButton size="small" onClick={() => add({id: item.id })}>
+                          <AddIcon />
+                        </IconButton>
+                      </span>
+                    </span>
                   }
                 />
               </ListItem>
               <Divider component="li" />
-            </>
+            </div>
           ))
         : <Typography variant="body2" style={{padding: 15}}>Nenhum produto adicionado!</Typography>}
       {
