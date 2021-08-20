@@ -21,7 +21,6 @@ import { addToCart, cleanCart, removeToCart } from '../../store/actions/cart';
 
 function CartList({ show, items }) {
   const dispatch = useDispatch();
-  const [showModal, setShowModal] = React.useState(false);
 
   const clean = () => {
     dispatch(cleanCart());
