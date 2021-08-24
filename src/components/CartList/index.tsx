@@ -10,8 +10,6 @@ import {
   Typography,
   Button,
   Paper,
-  Modal,
-  Box
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
